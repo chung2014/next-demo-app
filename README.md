@@ -1,34 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# How to test the project
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
+Step 1: Build the docker image
+```
+./build.sh
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Step 2: Run docker container from the image
+```
+./run.sh
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+// Default is to run the container at port 3000.
+// If you want to run the container with other port
+./run.sh 3001
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+# Environment vars
+This project uses the following environment variables:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+| Name                          | Description                         | Default Value                                  |
+| ----------------------------- | ------------------------------------| -----------------------------------------------|
+|server           | Server URL            | "http://localhost:3000"      |
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+# Pre-requisites for local development environment
+- Install Node.js version 12
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Getting started for local development
+- Clone the repository
+```
+git clone  <git lab template url> <project_name>
+```
+- Install dependencies
+```
+cd <project_name>
+npm install
+```
+- Build and run the project
+```
+npm run dev
+```
+  Navigate to `http://localhost:3000`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Docker command for troubleshoot
 
-## Deploy on Vercel
+```
+// build the image
+docker build -t your_dockerhub_username/next-demo-app .
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+// run the docker container at with local port 3000
+docker run --name next-demo-app -p 3000:3000 -d your_dockerhub_username/next-demo-app
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+// open the sh shell to check what files are inside the running container
+docker exec -it next-demo-app sh
+
+// kill all the container process
+docker kill $(docker ps -q); docker rm $(docker ps -a -q);
+
+```
+
